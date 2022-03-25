@@ -1,42 +1,29 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
-const { database } = require('./keys');
-
-//INICIALIZA EXPRESS 
+//inicializations server
 const app = express();
 
-
-//CONFIGURACION DE PUERTOS
+//settings
 app.set('port', process.env.PORT || 4000);
-app.set('views', path.join(__dirname, 'views'));
 
-//SE CONFIGURA EL MOTOR DE PLANTILLA
-
-
-app.set('view engine', '.hbs');
-app.set('json spaces', 2);
-
-
-
-
-
-app.use(morgan('dev'));
+//meddlewares
+app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-//VARIABLES GLOBALES
+//global variables
 app.use((req, res, next) => {
-    next();
-})
-
-//RUTAS
+        next();
+    })
+    //routes
 app.use(require('./routes'));
+app.use('/gestion_mascotas', require('./routes/mascotas/mascota_custodia'));
 
+//....ruta registro mascotas
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-//PARA ARRANCAR EL SERVIDOR 
+//public files
+app.use(express.static(path.join(__dirname, 'public')))
+    //starting server
 app.listen(app.get('port'), () => {
-    console.log('it is running in', app.get('port'), ' port');
+    console.log('the server is available on ', app.get('port'), ' port')
 })
