@@ -1,16 +1,21 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
+const cors = require('cors');
+
+
 //inicializations server
 const app = express();
 
+
 //settings
-app.set('port', process.env.PORT || 4000);
+app.set('port', process.env.PORT || 3500);
 
 //meddlewares
 app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors());
 //global variables
 app.use((req, res, next) => {
         next();
