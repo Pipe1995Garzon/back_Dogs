@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
-
+//const multer = require('multer');
 
 //inicializations server
 const app = express();

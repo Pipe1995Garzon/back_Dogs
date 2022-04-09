@@ -11,5 +11,7 @@ router.post('/resgitrar_mascotas', mascotasController.CrearMascotaenCustodia);
 router.delete('/eliminar_mascotas/:id', mascotasController.EliminarMacotasenCustodia);
 //modificar mascotas
 router.put('/modificar_mascotas/:id', mascotasController.ModificarMascotaenCustodia);
+//subir imagen de mascota
+router.post('/subirimagenmascota', mascotasController.fileUploadpetImage);
 
 module.exports = router;

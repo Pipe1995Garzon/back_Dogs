@@ -1,9 +1,22 @@
 const listMyspetsModel = require('../models/mascotas_Model');
+const multer = require('multer');
+const path = require('path');
+
+const diskstorage = multer.diskStorage({
+        destination: path.join(__dirname, '../public/images_pets/custody_pets'),
+        filename: (req, file, cb) => {
+            cb(null, Date.now() + '-Dogs-' + file.originalname)
+        }
+    })
+    //subir imagenes de las mascotas encustodia
+const fileUploadpetImage = multer({
+    storage: diskstorage
+}).single('image')
 
 //listar mascotas en custodia
 async function listarMacotasenCustodia(req, res) {
     const result_Mypets = await listMyspetsModel().listPets();
-    res.status(200).json({ result_Mypets });
+    res.status(200).json(result_Mypets);
 }
 
 //registrar mascotas en custodia
@@ -45,9 +58,17 @@ async function EliminarMacotasenCustodia(req, res) {
     })
 }
 
+//subir imagenes de mascota
+async function subirImagenesMascotas(req, res) {
+    //const result_Mypets = await listMyspetsModel().listPets();
+    console.log(req.files);
+}
+
 module.exports = {
     listarMacotasenCustodia,
     CrearMascotaenCustodia,
     EliminarMacotasenCustodia,
-    ModificarMascotaenCustodia
+    ModificarMascotaenCustodia,
+    subirImagenesMascotas,
+    fileUploadpetImage
 }
