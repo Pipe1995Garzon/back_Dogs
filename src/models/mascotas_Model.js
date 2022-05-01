@@ -88,10 +88,17 @@ module.exports = function() {
     }
 
     //LOGICA GESTION HISTORIAS
+    //MOSTRAR HISTORIAS CORRESPONDIENTES A CADA USUARIO
     async function mostrarhistoriaindividual(data) {
         console.log(data)
-        let sql = 'SELECT nombre FROM historia WHERE usuario =?';
+        let sql = 'SELECT * FROM historia WHERE usuario =?';
         return await pool.query(sql, data);
+    }
+
+    //MOSTRAR MASCOTAS CORRESPONDIENTES A CADA USUARIO
+    async function mostrarmascotasindividual(data) {
+        let sql = 'SELECT * FROM dogs WHERE usuario =?';
+        return await pool.query(sql, data)
     }
 
     return {
@@ -108,6 +115,7 @@ module.exports = function() {
         listbreed,
         statepet,
         vaccinestate,
-        mostrarhistoriaindividual
+        mostrarhistoriaindividual,
+        mostrarmascotasindividual
     }
 }

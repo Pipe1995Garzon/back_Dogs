@@ -142,12 +142,18 @@ async function ListarEstadoDeVacuna(req, res) {
 //LOGICA GESTION MASCOTAS
 //MOSTRAR HISTORIAS INDIVIDUALES
 async function MostrarHistoriaIndividual(req, res) {
-    const data = req.params.id;
+    const data = req.params.usuario;
     const historia = await listMyspetsModel().mostrarhistoriaindividual(data);
     res.status(200).json(historia)
+    console.log(historia)
 }
 
-
+//MOSTRAR MASCOTA INDIVIDUALMENTE
+async function MostrarMascotaIndividual(req, res) {
+    const data = req.params.usuario;
+    const mascotas = await listMyspetsModel().mostrarmascotasindividual(data);
+    res.status(200).json(mascotas);
+}
 
 module.exports = {
     listarMacotasenCustodia,
@@ -164,5 +170,6 @@ module.exports = {
     ListarRazaMascotas,
     ListarEstadoDeMascota,
     ListarEstadoDeVacuna,
-    MostrarHistoriaIndividual
+    MostrarHistoriaIndividual,
+    MostrarMascotaIndividual
 }

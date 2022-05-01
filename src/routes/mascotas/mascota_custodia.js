@@ -38,8 +38,11 @@ router.get('/listapublicamascotas', mascotasController.PublicListPets);
 //HISTORIAS PUBLICAS MASCOTAS
 router.get('/historiaspublicasdemascotas', mascotasController.PublicHistory);
 
+
 //LISTAS INDIVIDUALES MASCOTAS
-router.get('/listaindividual/:id', mascotasController.ModificarHistoriaMascotas);
+router.get('/listaindividual/:usuario', mascotasController.MostrarHistoriaIndividual);
+//LISTAS INDIVIDUALES DE MASCOTAS
+router.get('/mascotasindividuales/:usuario', mascotasController.MostrarMascotaIndividual);
 //subir imagen de mascota
 router.post('/subirimagenmascota', mascotasController.fileUploadpetImage, async(req, res) => {
     const type = req.file.mimetype
