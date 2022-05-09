@@ -4,18 +4,17 @@ const path = require('path');
 const fs = require('fs')
 
 
-
+//guardar imagen en el servidor
 const diskstorage = multer.diskStorage({
-    destination: path.join(__dirname, '../public/images_pets/custody_pets'),
+    destination: path.join(__dirname, '../images_pets'),
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-Dogs-' + file.originalname)
     }
 })
 
-const fileUploadpetImage = multer({
+const fileUpload = multer({
     storage: diskstorage
 }).single('image')
-
 
 
 
@@ -68,11 +67,10 @@ async function EliminarMacotasenCustodia(req, res) {
 //SECCION HISTORIA DE MASCOTAS - SECCION HISTORIA DE MASCOTAS - SECCION HISTORIA DE MASCOTAS - SECCION HISTORIAS DE MASCOTAS
 //listar historia de mascotas
 async function listarHistoriasMascotas(req, res) {
-    const result_Mypets = await listMyspetsModel().listHistoryPets();
+    const result_Mypets = await listMyspetsModel().listdefinitivepets();
     res.status(200).json(result_Mypets);
 }
-
-//registrar historias de mascotas
+//registrar historias de mascotass
 async function RegistrarHistoriaMascotas(req, res) {
     const data = req.body;
     console.log(req.body);
@@ -120,6 +118,7 @@ async function PublicListPets(req, res) {
 //TAMBIEN  ES LA MISMA INFORMACION QUE VA A MOSTRAR LA APP.
 async function PublicHistory(req, res) {
     const history = await listMyspetsModel().publicpetshistory();
+    console.log(history);
     res.status(200).json(history);
 }
 //LISTAR RAZA DE MASCOTAS
@@ -160,7 +159,7 @@ module.exports = {
     CrearMascotaenCustodia,
     EliminarMacotasenCustodia,
     ModificarMascotaenCustodia,
-    fileUploadpetImage,
+    fileUpload,
     listarHistoriasMascotas,
     RegistrarHistoriaMascotas,
     ModificarHistoriaMascotas,

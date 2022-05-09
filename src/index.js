@@ -16,7 +16,8 @@ app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
-//global variables
+app.use(express.static(path.join(__dirname, 'Dogs_imagenes_h')))
+    //global variables
 app.use((req, res, next) => {
         next();
     })

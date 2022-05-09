@@ -1,12 +1,24 @@
 const pool = require('../database');
 
 module.exports = function() {
+    //modificar campo  NAME,TYPE,DATA de mascota
+    async function guardarimagenmascota(data) {
+        let sql = `update historia set type=?,
+         name=?, data=? where
+          id_historia = ?`;
+        return await pool.query(sql, data);
+    }
+
+    async function foto(data) {
+        let sql = `update historia set foto=? where id_historia=?`
+        return await pool.query(sql, data);
+    }
+
     //listar mascotas
     async function listPets() {
         let sql = "select * from dogs";
         return await pool.query(sql);
     }
-
 
     //registrar mascotas
     async function crearMascotaenCustodia(data) {
@@ -30,12 +42,18 @@ module.exports = function() {
 
     //SECCION DE HISTORIA DE MASCOTAS - SECCION DE HISTORIA DE MASCOTAS - SECCION DE HISTORIA DE MASCOTAS
 
-    //listar historia de mascotas 
+    //listar historia de mascotas para gestionar IMAGENES
     async function listHistoryPets() {
-        let sql = "select * from historia";
+        let sql = "SELECT id_historia,nombre,descripcion,id_raza,usuario,type,name,data FROM historia";
         return await pool.query(sql);
     }
 
+    //LISTAR HISTORIA PARA QUE EL PUBLICO PUEDA VERLA (DEFINITIVA)
+    async function listdefinitivepets() {
+        let sql = `SELECT hi.nombre,hi.foto,hi.descripcion,hi.usuario,ra.raza FROM historia hi, raza ra
+        WHERE hi.id_raza=ra.id_raza`;
+        return await pool.query(sql)
+    }
     //registrar mascotas
     async function createHistoryPets(data) {
         let sql = "insert into historia set ?";
@@ -67,7 +85,7 @@ module.exports = function() {
     //HISTORIAS PUBLICA DE MASCOTAS (SE MUESTRA AL PUBLICO SIN NECESIDAD DE LOGUEARSE........!!!!!!!!)
     //TAMBIEN ESTA ES LA INFORMACION QUE VA A MOSTRAR LA APP.
     async function publicpetshistory() {
-        let sql = `SELECT hi.nombre,hi.foto,hi.descripcion,hi.usuario, ra.raza FROM historia hi, raza ra
+        let sql = `SELECT hi.nombre,hi.foto,hi.descripcion,hi.usuario,ra.raza FROM historia hi, raza ra
         WHERE hi.id_raza=ra.id_raza`;
         return await pool.query(sql)
     }
@@ -116,6 +134,9 @@ module.exports = function() {
         statepet,
         vaccinestate,
         mostrarhistoriaindividual,
-        mostrarmascotasindividual
+        mostrarmascotasindividual,
+        guardarimagenmascota,
+        foto,
+        listdefinitivepets
     }
 }
