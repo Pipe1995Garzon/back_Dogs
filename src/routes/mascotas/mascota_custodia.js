@@ -55,21 +55,21 @@ router.put('/subirimagenmascota/:id', mascotasController.fileUpload, async(req, 
     const fotos = [type, name, data, req.params.id]
     await listMyspetsModel().guardarimagenmascota(fotos);
     console.log('listo la parte de subir al servidor');
-    let iddelaimagen = 0;
+    let iddelaimagen = 4;
     const result_Mypets = await listMyspetsModel().listHistoryPets();
     result_Mypets.map(img => {
-        fs.writeFileSync(path.join(__dirname, '../../Dogs_imagenes_h/' + iddelaimagen + 'Dogs.jpeg'), img.data)
-    })
-
-    const imagenes_guardadas = fs.readdirSync(path.join(__dirname, '../../Dogs_imagenes_h/'))
+            fs.writeFileSync(path.join(__dirname, '../../Dogs_imagenes_h/' + iddelaimagen + 'Dogs.jpeg'), img.data)
+        })
+        //const imagenes_guardadas = fs.readdirSync(path.join(__dirname, '../../Dogs_imagenes_h/'))
+    const imagenes_guardadas = fs.readFileSync(path.join(__dirname, '../../Dogs_imagenes_h/' + iddelaimagen + 'Dogs.jpeg'))
     console.log('lista la parte de imagenes que react va a consumir')
-    console.log(imagenes_guardadas)
+        //console.log(imagenes_guardadas)
     imagenes_guardadas.toString();
-    const nombrefoto = [imagenes_guardadas, req.params.id]
+    const nom_foto = `${iddelaimagen}Dogs.jpeg`;
+    const nombrefoto = [nom_foto, req.params.id]
     await listMyspetsModel().foto(nombrefoto)
     console.log('si llego aqui deberia estar el nombre de la foto en la base de datos.....')
 });
-
 
 module.exports = router;
 //
