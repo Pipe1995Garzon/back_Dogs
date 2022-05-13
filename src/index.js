@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'Dogs_imagenes_h')))
+app.use(express.static(path.join(__dirname, 'Dogs_imagenes_d')))
     //global variables
 app.use((req, res, next) => {
         next();

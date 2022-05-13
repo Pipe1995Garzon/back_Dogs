@@ -1,7 +1,8 @@
 const pool = require('../database');
 
 module.exports = function() {
-    //modificar campo  NAME,TYPE,DATA de mascota
+    //gestion foto historia de mascota
+    //modificar campo  NAME,TYPE,DATA de historia de  mascota
     async function guardarimagenmascota(data) {
         let sql = `update historia set type=?,
          name=?, data=? where
@@ -14,6 +15,18 @@ module.exports = function() {
         return await pool.query(sql, data);
     }
 
+    //gestion foto de mascotas para adopcion
+    async function guardarimagenmascotadogs(data) {
+        let sql = `update dogs set type=?,
+         name=?, data=? where
+          id_dog = ?`;
+        return await pool.query(sql, data);
+    }
+
+    async function fotodogs(data) {
+        let sql = `update dogs set foto=? where id_dog=?`
+        return await pool.query(sql, data);
+    }
     //listar mascotas
     async function listPets() {
         let sql = "select * from dogs";
@@ -42,10 +55,16 @@ module.exports = function() {
 
     //SECCION DE HISTORIA DE MASCOTAS - SECCION DE HISTORIA DE MASCOTAS - SECCION DE HISTORIA DE MASCOTAS
 
-    //listar historia de mascotas para gestionar IMAGENES
+    //listar historia de mascotas para gestionar IMAGENES historias
     async function listHistoryPets() {
         let sql = "SELECT id_historia,nombre,descripcion,id_raza,usuario,type,name,data FROM historia";
         return await pool.query(sql);
+    }
+
+    //listar historia de mascotas para gestionar IMAGENES dogs para adoptar
+    async function listHistoryPetsDogs(data) {
+        let sql = "SELECT id_dog,nombre,descripcion,id_raza,usuario,type,name,data from dogs where id_dog=?";
+        return await pool.query(sql, data);
     }
 
     //LISTAR HISTORIA PARA QUE EL PUBLICO PUEDA VERLA (DEFINITIVA)
@@ -137,6 +156,9 @@ module.exports = function() {
         mostrarmascotasindividual,
         guardarimagenmascota,
         foto,
+        guardarimagenmascotadogs,
+        fotodogs,
+        listHistoryPetsDogs,
         listdefinitivepets
     }
 }

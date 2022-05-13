@@ -55,7 +55,7 @@ router.put('/subirimagenmascota/:id', mascotasController.fileUpload, async(req, 
     const fotos = [type, name, data, req.params.id]
     await listMyspetsModel().guardarimagenmascota(fotos);
     console.log('listo la parte de subir al servidor');
-    let iddelaimagen = 4;
+    let iddelaimagen = 6;
     const result_Mypets = await listMyspetsModel().listHistoryPets();
     result_Mypets.map(img => {
             fs.writeFileSync(path.join(__dirname, '../../Dogs_imagenes_h/' + iddelaimagen + 'Dogs.jpeg'), img.data)
@@ -68,6 +68,35 @@ router.put('/subirimagenmascota/:id', mascotasController.fileUpload, async(req, 
     const nom_foto = `${iddelaimagen}Dogs.jpeg`;
     const nombrefoto = [nom_foto, req.params.id]
     await listMyspetsModel().foto(nombrefoto)
+    console.log('si llego aqui deberia estar el nombre de la foto en la base de datos.....')
+});
+
+
+//subir imagen para mascotas para adoptar.
+
+router.put('/subirimagenmascotadogs/:id', mascotasController.fileUploaddogs, async(req, res) => {
+    const type = req.file.mimetype;
+    const name = req.file.originalname;
+    const data = fs.readFileSync(path.join(__dirname, '../../images_pets_d/' + req.file.filename))
+    const fotos = [type, name, data, req.params.id]
+    const id = req.params.id
+    await listMyspetsModel().guardarimagenmascotadogs(fotos);
+    console.log('listo la parte de subir al servidor');
+    let iddelaimagen = 2;
+    const result_MypetsDogs = await listMyspetsModel().listHistoryPetsDogs(id);
+    console.log('holis', result_MypetsDogs)
+    result_MypetsDogs.map(img => {
+            fs.writeFileSync(path.join(__dirname, '../../Dogs_imagenes_d/' + iddelaimagen + 'Dogs.jpeg'), img.data)
+        })
+        //const imagenes_guardadas = fs.readdirSync(path.join(__dirname, '../../Dogs_imagenes_h/'))
+    const imagenes_guardadas = fs.readFileSync(path.join(__dirname, '../../Dogs_imagenes_d/' + iddelaimagen + 'Dogs.jpeg'))
+    console.log('lista la parte de imagenes que react va a consumir')
+        //console.log(imagenes_guardadas)
+        //aqui voy
+    imagenes_guardadas.toString();
+    const nom_foto = `${iddelaimagen}Dogs.jpeg`;
+    const nombrefoto = [nom_foto, req.params.id]
+    await listMyspetsModel().fotodogs(nombrefoto)
     console.log('si llego aqui deberia estar el nombre de la foto en la base de datos.....')
 });
 

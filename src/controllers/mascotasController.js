@@ -4,17 +4,30 @@ const path = require('path');
 const fs = require('fs')
 
 
-//guardar imagen en el servidor
+//guardar imagen en el servidor para historias
 const diskstorage = multer.diskStorage({
-    destination: path.join(__dirname, '../images_pets'),
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-Dogs-' + file.originalname)
-    }
-})
-
+        destination: path.join(__dirname, '../images_pets'),
+        filename: (req, file, cb) => {
+            cb(null, Date.now() + '-Dogs-' + file.originalname)
+        }
+    })
+    // para historias
 const fileUpload = multer({
     storage: diskstorage
 }).single('image')
+
+
+//guardar imagen en el servidor para historias
+const diskstoragedogs = multer.diskStorage({
+        destination: path.join(__dirname, '../images_pets_d'),
+        filename: (req, file, cb) => {
+            cb(null, Date.now() + '-Dogs-' + file.originalname)
+        }
+    })
+    // para historias
+const fileUploaddogs = multer({
+    storage: diskstoragedogs
+}).single('imagedogs')
 
 
 
@@ -160,6 +173,7 @@ module.exports = {
     EliminarMacotasenCustodia,
     ModificarMascotaenCustodia,
     fileUpload,
+    fileUploaddogs,
     listarHistoriasMascotas,
     RegistrarHistoriaMascotas,
     ModificarHistoriaMascotas,
