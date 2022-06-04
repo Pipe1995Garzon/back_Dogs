@@ -6,5 +6,3 @@ module.exports = {
         database: 'fundacion'
     }
 }
-
-//7C5fb#Pi[tot

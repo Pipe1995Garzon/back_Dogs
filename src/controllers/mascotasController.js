@@ -19,7 +19,7 @@ const fileUpload = multer({
 
 //guardar imagen en el servidor para historias
 const diskstoragedogs = multer.diskStorage({
-        destination: path.join(__dirname, '../images_pets_d'),
+        destination: path.join(__dirname, '../images_pets'),
         filename: (req, file, cb) => {
             cb(null, Date.now() + '-Dogs-' + file.originalname)
         }

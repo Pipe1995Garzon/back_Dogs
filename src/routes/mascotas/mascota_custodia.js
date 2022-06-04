@@ -7,21 +7,21 @@ const listMyspetsModel = require('../../models/mascotas_Model');
 const multer = require('multer');
 
 
-//LISTAR RAZA
+//LISTAR RAZA PARA FORMULARIOS
 router.get('/listarrazamascotas', mascotasController.ListarRazaMascotas);
-//LISTAR ESTADO
+//LISTAR ESTADO PARA FORMULARIOS
 router.get('/estadomascotas', mascotasController.ListarEstadoDeMascota);
-//LISTAR ESTADO DE VACUNA
+//LISTAR ESTADO DE VACUNA VACUNA PARA FORMULARIOS
 router.get('/estadovacuna', mascotasController.ListarEstadoDeVacuna);
 
 //SECCION MASCOTAS A PUBLICAR ----- SECCION MASCOTAS A PUBLICAR------------
-//listar mascotas
+//listar mascotas para posible adopcion
 router.get('/lista_mascotas/', mascotasController.listarMacotasenCustodia);
-//registrar mascotas
+//registrar mascotas para posible adopcion
 router.post('/resgitrar_mascotas', mascotasController.CrearMascotaenCustodia);
-//eliminar mascotas
+//eliminar mascotas para posible adopcion
 router.delete('/eliminar_mascotas/:id', mascotasController.EliminarMacotasenCustodia);
-//modificar mascotas
+//modificar mascotas para posible adopcion
 router.put('/modificar_mascotas/:id', mascotasController.ModificarMascotaenCustodia);
 
 //SECCION HISTORIAS DE MASCOTAS------SECCION HISTORIAS DE MASCOTAS-------- SECCION HISTORIAS DE MASCOTAS
@@ -31,7 +31,7 @@ router.get('/historias', mascotasController.listarHistoriasMascotas);
 router.post('/resgitrar_historia', mascotasController.RegistrarHistoriaMascotas);
 //modificar historia
 router.put('/modificar_historia/:id', mascotasController.ModificarHistoriaMascotas);
-//eliminar mascotas
+//eliminar mascotas hhistoria
 router.delete('/eliminar_historia/:id', mascotasController.EliminarHistoriaMascotas);
 
 //LISTAS PUBLICAS DE MASCOTAS 
@@ -47,7 +47,6 @@ router.get('/mascotasindividuales/:usuario', mascotasController.MostrarMascotaIn
 
 
 //imagen historia mascota. desde el formulario de editar.
-
 router.put('/subirimagenmascota/:id', mascotasController.fileUpload, async(req, res) => {
     const type = req.file.mimetype;
     const name = req.file.originalname;
@@ -55,7 +54,7 @@ router.put('/subirimagenmascota/:id', mascotasController.fileUpload, async(req, 
     const fotos = [type, name, data, req.params.id]
     await listMyspetsModel().guardarimagenmascota(fotos);
     console.log('listo la parte de subir al servidor');
-    let iddelaimagen = 6;
+    let iddelaimagen = Math.floor(Math.random() * 1000);
     const result_Mypets = await listMyspetsModel().listHistoryPets();
     result_Mypets.map(img => {
             fs.writeFileSync(path.join(__dirname, '../../Dogs_imagenes_h/' + iddelaimagen + 'Dogs.jpeg'), img.data)
@@ -73,23 +72,23 @@ router.put('/subirimagenmascota/:id', mascotasController.fileUpload, async(req, 
 
 
 //subir imagen para mascotas para adoptar.
-
 router.put('/subirimagenmascotadogs/:id', mascotasController.fileUploaddogs, async(req, res) => {
     const type = req.file.mimetype;
     const name = req.file.originalname;
-    const data = fs.readFileSync(path.join(__dirname, '../../images_pets_d/' + req.file.filename))
+    console.log(req.file);
+    const data = fs.readFileSync(path.join(__dirname, '../../images_pets/' + req.file.filename))
     const fotos = [type, name, data, req.params.id]
     const id = req.params.id
     await listMyspetsModel().guardarimagenmascotadogs(fotos);
     console.log('listo la parte de subir al servidor');
-    let iddelaimagen = 2;
+    let iddelaimagen = Math.floor(Math.random() * 10000);
     const result_MypetsDogs = await listMyspetsModel().listHistoryPetsDogs(id);
     console.log('holis', result_MypetsDogs)
     result_MypetsDogs.map(img => {
-            fs.writeFileSync(path.join(__dirname, '../../Dogs_imagenes_d/' + iddelaimagen + 'Dogs.jpeg'), img.data)
+            fs.writeFileSync(path.join(__dirname, '../../Dogs_imagenes_h/' + iddelaimagen + 'Dogs.jpeg'), img.data)
         })
         //const imagenes_guardadas = fs.readdirSync(path.join(__dirname, '../../Dogs_imagenes_h/'))
-    const imagenes_guardadas = fs.readFileSync(path.join(__dirname, '../../Dogs_imagenes_d/' + iddelaimagen + 'Dogs.jpeg'))
+    const imagenes_guardadas = fs.readFileSync(path.join(__dirname, '../../Dogs_imagenes_h/' + iddelaimagen + 'Dogs.jpeg'))
     console.log('lista la parte de imagenes que react va a consumir')
         //console.log(imagenes_guardadas)
         //aqui voy
